@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension point="org.eclipse.ui.editors">
+		<editor
+				name="Jif Editor"
+				extensions="jif"
+				class="jif.ide.editors.JifEditor"
+				id="jif.ide.editors.Editor"
+		/>
+	</extension>	
+	
+	<extension
+			point="org.eclipse.core.resources.natures"
+			id="jifnature"
+			name="Jif nature">
+		<runtime>
+			<run class="jif.ide.natures.JifNature"/>
+		</runtime>
+	</extension>
+	
+	<extension point="org.eclipse.ui.newWizards">
+		<category
+				id="jif.ide.category.wizards"
+				name="Jif"/>
+			<wizard
+				category="jif.ide.category.wizards"
+				class="jif.ide.wizards.NewJifProjectWizard"
+				id="jif.ide.wizards.new.jifproject"
+				name="Jif Project"
+				project="true"/>
+	</extension>		
+</plugin>
