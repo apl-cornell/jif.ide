@@ -12,7 +12,13 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.editors,
  org.eclipse.ui.ide,
  org.eclipse.jdt.ui,
- org.eclipse.jdt.core,
- polyglot.ide
+ org.eclipse.jdt.core 
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
+Import-Package: 
+ polyglot.frontend,
+ polyglot.ide,
+ polyglot.ide.common,
+ polyglot.ide.editors,
+ polyglot.ide.natures,
+ polyglot.ide.wizards

@@ -29,5 +29,28 @@
 				id="jif.ide.wizards.new.jifproject"
 				name="Jif Project"
 				project="true"/>
-	</extension>		
+	</extension>	
+	
+	<extension point="org.eclipse.ui.menus">
+  		<menuContribution locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=export">
+     		<menu id="buildPathMenu" label="Build Path">
+     		<command
+           		commandId="jif.ide.commands.configureBuildPathCommand"
+           		label="Configure Jif Build Path..."
+           		style="push">
+     		</command>
+     		</menu>
+  		</menuContribution>
+	</extension>
+	
+	<extension point="org.eclipse.ui.commands">
+		<command id="jif.ide.commands.configureBuildPathCommand" name="Configure Build Path Command" />
+	</extension>
+	
+	<extension point="org.eclipse.ui.handlers">
+      <handler
+            class="jif.ide.wizards.JifConfigureBuildPathCommandHandler"
+            commandId="jif.ide.commands.configureBuildPathCommand">
+      </handler>
+    </extension>	
 </plugin>
