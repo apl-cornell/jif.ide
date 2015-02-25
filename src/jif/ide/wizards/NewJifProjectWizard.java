@@ -21,9 +21,9 @@ public class NewJifProjectWizard extends NewJLProjectWizard {
 
 	@Override
 	protected String getTitle() {
-	    return "New Jif Project";
+		return "New Jif Project";
 	}
-	
+
 	@Override
 	public void addPages() {
 		pageOne = new WizardNewProjectCreationPage("newJifProjectPageOne") {
@@ -47,28 +47,30 @@ public class NewJifProjectWizard extends NewJLProjectWizard {
 
 		addPage(pageTwo);
 	}
-	
+
 	@Override
 	protected void createClasspathFile() {
 		List<ClasspathEntry> entries = new ArrayList<>();
-		
+
 		// src is default classpath entry
 		entries.add(new ClasspathEntry(ClasspathEntryKind.SRC, "src"));
 
 		if (pageTwo.getClasspathEntries() != null)
-			for (LibraryResource libraryResource : pageTwo.getClasspathEntries())
+			for (LibraryResource libraryResource : pageTwo
+					.getClasspathEntries())
 				entries.add(new ClasspathEntry(ClasspathEntryKind.LIB,
 						libraryResource.getName()));
-		
+
 		// bin is default classpath entry
-		entries.add(new ClasspathEntry(ClasspathEntryKind.OUTPUT,
-				"bin"));
-		
-		if(((NewJifProjectWizardPageTwo) pageTwo).getSigpathEntries() != null)
-			for (LibraryResource libraryResource : ((NewJifProjectWizardPageTwo) pageTwo).getSigpathEntries())
+		entries.add(new ClasspathEntry(ClasspathEntryKind.OUTPUT, "bin"));
+
+		if (((NewJifProjectWizardPageTwo) pageTwo).getSigpathEntries() != null)
+			for (LibraryResource libraryResource : ((NewJifProjectWizardPageTwo) pageTwo)
+					.getSigpathEntries())
 				entries.add(new ClasspathEntry(ClasspathEntryKind.LIB,
-						libraryResource.getName(), ClasspathEntryType.SIGPATHENTRY));
-		
+						libraryResource.getName(),
+						ClasspathEntryType.SIGPATHENTRY));
+
 		try {
 			ClasspathUtil.createClasspathFile(project, entries);
 		} catch (Exception e) {
@@ -79,5 +81,10 @@ public class NewJifProjectWizard extends NewJLProjectWizard {
 							"Error creating dot-classpath file. Please check file permissions",
 							e.getCause(), Style.BLOCK);
 		}
+	}
+
+	@Override
+	protected String getBuilderId() {
+		return "jif.ide.builder.jifBuilder";
 	}
 }

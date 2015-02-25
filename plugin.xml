@@ -36,7 +36,7 @@
      		<menu id="buildPathMenu" label="Build Path">
      		<command
            		commandId="jif.ide.commands.configureBuildPathCommand"
-           		label="Configure Jif Build Path..."
+           		label="Configure Build Path..."
            		style="push">
      		</command>
      		</menu>
@@ -52,5 +52,13 @@
             class="jif.ide.wizards.JifConfigureBuildPathCommandHandler"
             commandId="jif.ide.commands.configureBuildPathCommand">
       </handler>
-    </extension>	
+    </extension>
+    
+    <extension
+      id="jif.ide.builder.jifBuilder" name="Jif Project Builder" point="org.eclipse.core.resources.builders">
+      <builder>
+         <run class="jif.ide.JifProjectBuilder">
+         </run>
+      </builder>
+   </extension>	
 </plugin>

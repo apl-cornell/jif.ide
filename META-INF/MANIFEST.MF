@@ -3,7 +3,15 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Jif IDE
 Bundle-SymbolicName: jif.ide;singleton:=true
 Bundle-Version: 1.0.0
-Bundle-ClassPath: classes
+Bundle-ClassPath: classes,
+ lib/jiflib.jar,
+ lib/jifrt.jar,
+ lib/jif.jar,
+ lib/jifsig.jar,
+ lib/polyglot-ide.jar,
+ lib/java_cup.jar,
+ lib/jflex.jar,
+ lib/polyglot.jar
 Bundle-Activator: jif.ide.JifPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -12,13 +20,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.editors,
  org.eclipse.ui.ide,
  org.eclipse.jdt.ui,
- org.eclipse.jdt.core 
+ org.eclipse.jdt.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
-Import-Package: 
- polyglot.frontend,
- polyglot.ide,
- polyglot.ide.common,
- polyglot.ide.editors,
- polyglot.ide.natures,
- polyglot.ide.wizards

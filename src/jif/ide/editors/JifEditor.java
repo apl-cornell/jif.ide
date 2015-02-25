@@ -1,11 +1,18 @@
 package jif.ide.editors;
 
-import polyglot.frontend.ExtensionInfo;
-import polyglot.ide.editors.JLEditor;
+import jif.ExtensionInfo;
+import polyglot.ide.editors.AbstractEditor;
+import polyglot.ide.editors.SourceViewerConfiguration;
 
-public class JifEditor extends JLEditor {
+public class JifEditor extends AbstractEditor {
+	
 	@Override
-	  public ExtensionInfo extInfo() {
-	    return new jif.ExtensionInfo();
-	  }
+	protected SourceViewerConfiguration createSourceViewerConfiguration() {
+	    return new JifSourceViewerConfiguration(this, colorManager);
+	}
+	
+	@Override
+	public ExtensionInfo extInfo() {
+		return new jif.ExtensionInfo();
+	}
 }
