@@ -29,6 +29,8 @@ public class JifReconcilingStrategy extends ReconcilingStrategy {
 	        project.getFile(ClasspathUtil.CLASSPATH_FILE_NAME).getRawLocation()
 	            .toFile();
 	    String classpath = ClasspathUtil.parse(classpathFile);
+	    String sourcepath =
+	            project.getFile("src").getRawLocation().toFile().toString();
         String sigpath = ClasspathUtil.parse(classpathFile, ClasspathEntryType.SIGPATHENTRY);
         
 	    try {
@@ -36,7 +38,7 @@ public class JifReconcilingStrategy extends ReconcilingStrategy {
 	      Options options = extInfo.getOptions();
 	      Options.global = options;
 	      options.parseCommandLine(new String[] { "-d", "/tmp", "/dev/null",
-	          "-classpath", classpath, "-sigcp", sigpath }, new HashSet<String>());
+	          "-classpath", classpath, "-sigcp", sigpath, "-sourcepath", sourcepath }, new HashSet<String>());
 	    } catch (UsageError e) {
 	      ErrorUtil.handleError(Level.ERROR, "polyglot.ide", "Compiler error",
 	          "An error occurred while configuring the compiler.", e, Style.LOG);

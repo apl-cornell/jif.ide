@@ -60,5 +60,14 @@
          <run class="jif.ide.JifProjectBuilder">
          </run>
       </builder>
-   </extension>	
+   </extension>
+   
+   <extension point="org.eclipse.debug.core.launchDelegates">
+  <launchDelegate
+   id="jif.ide.launchDelegate"
+   delegate="polyglot.ide.JLLaunchDelegate"
+   type="org.eclipse.jdt.launching.localJavaApplication"
+   modes="run">
+  </launchDelegate>
+ </extension>	
 </plugin>
