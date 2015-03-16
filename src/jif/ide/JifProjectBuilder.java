@@ -17,7 +17,7 @@ import polyglot.main.Main.TerminationException;
 import polyglot.util.SilentErrorQueue;
 
 public class JifProjectBuilder extends IncrementalProjectBuilder {
-
+	
 	@Override
 	protected IProject[] build(int kind, Map<String, String> args,
 			IProgressMonitor monitor) throws CoreException {
@@ -26,6 +26,7 @@ public class JifProjectBuilder extends IncrementalProjectBuilder {
 				.getFile(ClasspathUtil.CLASSPATH_FILE_NAME).getRawLocation()
 				.toFile();
 		String classpath = ClasspathUtil.parse(classpathFile);
+		jif.ExtensionInfo extInfo = new jif.ExtensionInfo();
 		String sigpath = ClasspathUtil.parse(classpathFile, ClasspathEntryType.SIGPATHENTRY);
 		
 		SilentErrorQueue eq = new SilentErrorQueue(100, "compiler");
@@ -34,7 +35,7 @@ public class JifProjectBuilder extends IncrementalProjectBuilder {
 				.toString();
 		Set<String> filesToCompile = new HashSet<>();
 		File src = getProject().getFile("src").getRawLocation().toFile();
-		collectAllFiles(src, filesToCompile);
+		collectAllFiles(src, filesToCompile, extInfo);
 
 		if (filesToCompile.isEmpty())
 			return null;
@@ -46,13 +47,14 @@ public class JifProjectBuilder extends IncrementalProjectBuilder {
 				compilerArgs, 0, 6);
 		int curIdx = 6;
 		for (String srcFile : filesToCompile) {
-			compilerArgs[curIdx++] = srcFile;
+			if (extension(srcFile).equals(extInfo.defaultFileExtension()))
+				compilerArgs[curIdx++] = srcFile;
 		}
 
 		Main main = new Main();
 
 		try {
-			main.start(compilerArgs, new jif.ExtensionInfo(), eq);
+			main.start(compilerArgs, extInfo, eq);
 		} catch (TerminationException e) {
 			// ignore this one
 		}
@@ -60,12 +62,23 @@ public class JifProjectBuilder extends IncrementalProjectBuilder {
 		return null;
 	}
 
-	private void collectAllFiles(File baseDir, Set<String> files) {
+	private void collectAllFiles(File baseDir, Set<String> files, jif.ExtensionInfo extInfo) {
 		for (File file : baseDir.listFiles()) {
 			if (file.isDirectory())
-				collectAllFiles(file, files);
-			else if (file.length() != 0)
+				collectAllFiles(file, files, extInfo);
+			else if (extension(file.getName()).equals(extInfo.defaultFileExtension()) && file.length() != 0)
 				files.add(file.toString());
 		}
+	}
+	
+	private String extension(String filename) {
+		String extension = "";
+
+		int i = filename.lastIndexOf('.');
+		if (i > 0) {
+		    extension = filename.substring(i+1);
+		}
+		
+		return extension;
 	}
 }
