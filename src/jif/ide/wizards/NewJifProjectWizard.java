@@ -3,6 +3,8 @@ package jif.ide.wizards;
 import java.util.ArrayList;
 import java.util.List;
 
+import jif.ide.natures.JifNature;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
@@ -23,7 +25,12 @@ public class NewJifProjectWizard extends NewJLProjectWizard {
 	protected String getTitle() {
 		return "New Jif Project";
 	}
-
+	
+	@Override
+	protected String getNature() {
+	    return JifNature.NATURE_ID;
+	}
+	
 	@Override
 	public void addPages() {
 		pageOne = new WizardNewProjectCreationPage("newJifProjectPageOne") {

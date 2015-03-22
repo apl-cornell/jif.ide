@@ -12,8 +12,8 @@
 	
 	<extension
 			point="org.eclipse.core.resources.natures"
-			id="jifnature"
-			name="Jif nature">
+			id="jif.ide.jifnature"
+			name="Jif Nature">
 		<runtime>
 			<run class="jif.ide.natures.JifNature"/>
 		</runtime>
@@ -28,6 +28,7 @@
 				class="jif.ide.wizards.NewJifProjectWizard"
 				id="jif.ide.wizards.new.jifproject"
 				name="Jif Project"
+				icon="images/jif-logo.png"
 				project="true"/>
 	</extension>	
 	
