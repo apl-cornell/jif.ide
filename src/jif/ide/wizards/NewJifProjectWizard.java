@@ -92,6 +92,6 @@ public class NewJifProjectWizard extends NewJLProjectWizard {
 
 	@Override
 	protected String getBuilderId() {
-		return "jif.ide.builder.jifBuilder";
+		return "jif.ide.jifBuilder";
 	}
 }

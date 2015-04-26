@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Jif IDE
 Bundle-SymbolicName: jif.ide;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 0.1.0
 Bundle-ClassPath: classes,
  lib/jiflib.jar,
  lib/jifrt.jar,

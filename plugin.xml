@@ -17,6 +17,7 @@
 		<runtime>
 			<run class="jif.ide.natures.JifNature"/>
 		</runtime>
+		<builder id="jif.ide.jifBuilder" />
 	</extension>
 	
 	<extension point="org.eclipse.ui.newWizards">
@@ -39,6 +40,15 @@
            		commandId="jif.ide.commands.configureBuildPathCommand"
            		label="Configure Build Path..."
            		style="push">
+           		
+           		<visibleWhen>
+					<iterate operator="and">
+					<test property="org.eclipse.core.resources.projectNature"
+					value="jif.ide.jifnature">
+					</test>
+					</iterate>
+				</visibleWhen> 
+				
      		</command>
      		</menu>
   		</menuContribution>
@@ -56,8 +66,8 @@
     </extension>
     
     <extension
-      id="jif.ide.builder.jifBuilder" name="Jif Project Builder" point="org.eclipse.core.resources.builders">
-      <builder>
+      id="jifBuilder" name="Jif Project Builder" point="org.eclipse.core.resources.builders">
+      <builder hasNature="true">
          <run class="jif.ide.JifProjectBuilder">
          </run>
       </builder>
