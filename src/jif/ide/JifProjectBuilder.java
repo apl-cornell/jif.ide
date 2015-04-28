@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import jif.ide.common.DefaultClasspathResolver;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -25,9 +27,9 @@ public class JifProjectBuilder extends JLProjectBuilder {
 		File classpathFile = getProject()
 				.getFile(ClasspathUtil.CLASSPATH_FILE_NAME).getRawLocation()
 				.toFile();
-		String classpath = ClasspathUtil.parse(classpathFile);
+		String classpath = DefaultClasspathResolver.getDefaultClasspath() + File.pathSeparator + ClasspathUtil.parse(classpathFile);
 		jif.ExtensionInfo extInfo = getExtensionInfo();
-		String sigpath = ClasspathUtil.parse(classpathFile,
+		String sigpath = DefaultClasspathResolver.getDefaultSigpath() + File.pathSeparator + ClasspathUtil.parse(classpathFile,
 				ClasspathEntryType.SIGPATHENTRY);
 
 		SilentErrorQueue eq = new SilentErrorQueue(100, "compiler");

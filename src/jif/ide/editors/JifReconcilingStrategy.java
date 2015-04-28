@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import jif.ide.common.DefaultClasspathResolver;
 import jif.ide.natures.JifNature;
 
 import org.eclipse.core.resources.IProject;
@@ -31,10 +32,10 @@ public class JifReconcilingStrategy extends ReconcilingStrategy {
 		IProject project = editor.getFile().getProject();
 		File classpathFile = project.getFile(ClasspathUtil.CLASSPATH_FILE_NAME)
 				.getRawLocation().toFile();
-		String classpath = ClasspathUtil.parse(classpathFile);
+		String classpath = DefaultClasspathResolver.getDefaultClasspath() + File.pathSeparator + ClasspathUtil.parse(classpathFile);
 		String sourcepath = project.getFile("src").getRawLocation().toFile()
 				.toString();
-		String sigpath = ClasspathUtil.parse(classpathFile,
+		String sigpath = DefaultClasspathResolver.getDefaultSigpath() + File.pathSeparator + ClasspathUtil.parse(classpathFile,
 				ClasspathEntryType.SIGPATHENTRY);
 
 		try {
