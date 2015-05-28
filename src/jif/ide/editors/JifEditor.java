@@ -1,10 +1,10 @@
 package jif.ide.editors;
 
 import jif.ExtensionInfo;
-import polyglot.ide.editors.AbstractEditor;
+import polyglot.ide.editors.JLEditor;
 import polyglot.ide.editors.SourceViewerConfiguration;
 
-public class JifEditor extends AbstractEditor {
+public class JifEditor extends JLEditor {
 	
 	@Override
 	protected SourceViewerConfiguration createSourceViewerConfiguration() {
