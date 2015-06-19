@@ -16,30 +16,35 @@ import polyglot.ide.common.ErrorUtil.Level;
 import polyglot.ide.common.ErrorUtil.Style;
 
 public class DefaultClasspathResolver {
-	
-	private static String getPath(String filename) {
-		Bundle bundle = Platform.getBundle(JifPlugin.PLUGIN_ID);
-		URL url = FileLocator.find(bundle, new Path(filename), null);
-		
-		if (url != null) {
-			try {
-				URI uri = FileLocator.toFileURL(url).toURI();
-				return uri.getPath();
-			} catch (Exception e) {
-				ErrorUtil.handleError(Level.WARNING, "jif.ide",
-						"Unable to include default classpath entries.",
-						e.getCause(), Style.BLOCK);
-			}
-		}
-		
-		return "";
-	}
-	
-	public static String getDefaultClasspath() {
-		return getPath("/lib/jifrt.jar") + File.pathSeparator + new Path("/lib/jiflib.jar");
-	}
 
-	public static String getDefaultSigpath() {
-		return getPath("/lib/jifsig.jar");
-	}
+  private static String getPath(String filename) {
+    Bundle bundle = Platform.getBundle(JifPlugin.PLUGIN_ID);
+    URL url = FileLocator.find(bundle, new Path(filename), null);
+
+    if (url != null) {
+      try {
+        URI uri = FileLocator.toFileURL(url).toURI();
+        return uri.getPath();
+      } catch (Exception e) {
+        ErrorUtil.handleError(Level.WARNING, "jif.ide",
+            "Unable to include default classpath entries.",
+            e.getCause(), Style.BLOCK);
+      }
+    }
+
+    return "";
+  }
+
+  public static String getDefaultClasspath() {
+    return getPath("/lib/jif-rt/") + File.pathSeparator
+        + getPath("/lib/jifrt.jar")
+        + File.pathSeparator
+        + new Path("/lib/jif-lib/") + File.pathSeparator
+        + new Path("/lib/jiflib.jar");
+  }
+
+  public static String getDefaultSigpath() {
+    return getPath("/lib/jif-sig/") + File.pathSeparator
+        + getPath("/lib/jifsig.jar");
+  }
 }

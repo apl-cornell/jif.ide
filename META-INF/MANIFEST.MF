@@ -4,14 +4,11 @@ Bundle-Name: Jif IDE
 Bundle-SymbolicName: jif.ide;singleton:=true
 Bundle-Version: 0.1.0
 Bundle-ClassPath: classes,
- lib/jiflib.jar,
- lib/jifrt.jar,
- lib/jif.jar,
- lib/jifsig.jar,
+ lib/jif/,
  lib/java_cup.jar,
  lib/jflex.jar,
- lib/polyglot.jar,
- lib/polyglot-ide.jar
+ lib/polyglot/,
+ lib/polyglot-ide/
 Bundle-Activator: jif.ide.JifPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
