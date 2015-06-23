@@ -27,8 +27,8 @@ public class DefaultClasspathResolver {
         return uri.getPath();
       } catch (Exception e) {
         ErrorUtil.handleError(Level.WARNING, "jif.ide",
-            "Unable to include default classpath entries.",
-            e.getCause(), Style.BLOCK);
+            "Unable to include default classpath entries.", e.getCause(),
+            Style.BLOCK);
       }
     }
 
@@ -37,8 +37,7 @@ public class DefaultClasspathResolver {
 
   public static String getDefaultClasspath() {
     return getPath("/lib/jif-rt/") + File.pathSeparator
-        + getPath("/lib/jifrt.jar")
-        + File.pathSeparator
+        + getPath("/lib/jifrt.jar") + File.pathSeparator
         + new Path("/lib/jif-lib/") + File.pathSeparator
         + new Path("/lib/jiflib.jar");
   }

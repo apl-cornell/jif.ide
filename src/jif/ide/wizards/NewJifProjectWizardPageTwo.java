@@ -21,70 +21,71 @@ import polyglot.ide.wizards.LibrarySelector;
 import polyglot.ide.wizards.NewJLProjectWizardPageTwo;
 
 public class NewJifProjectWizardPageTwo extends NewJLProjectWizardPageTwo {
-	private LibrarySelector sigpathSelector;
+  private LibrarySelector sigpathSelector;
 
-	public NewJifProjectWizardPageTwo(String name) {
-		super(name);
-	}
+  public NewJifProjectWizardPageTwo(String name) {
+    super(name);
+  }
 
-	public NewJifProjectWizardPageTwo(String name, IProject project) {
-		this(name);
-		this.project = project;
-	}
+  public NewJifProjectWizardPageTwo(String name, IProject project) {
+    this(name);
+    this.project = project;
+  }
 
-	@Override
-	public void createControl(Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
-		composite.setFont(parent.getFont());
+  @Override
+  public void createControl(Composite parent) {
+    Composite composite = new Composite(parent, SWT.NONE);
+    composite.setFont(parent.getFont());
 
-		GridLayout layout = new GridLayout();
-		layout.marginWidth = 0;
-		layout.marginHeight = 0;
-		layout.numColumns = 1;
-		composite.setLayout(layout);
+    GridLayout layout = new GridLayout();
+    layout.marginWidth = 0;
+    layout.marginHeight = 0;
+    layout.numColumns = 1;
+    composite.setLayout(layout);
 
-		final TabFolder tabFolder = new TabFolder(composite, SWT.BORDER);
-		tabFolder.setLayoutData(new GridData(GridData.FILL_BOTH));
-		tabFolder.setFont(composite.getFont());
+    final TabFolder tabFolder = new TabFolder(composite, SWT.BORDER);
+    tabFolder.setLayoutData(new GridData(GridData.FILL_BOTH));
+    tabFolder.setFont(composite.getFont());
 
-		classpathSelector = new LibrarySelector(tabFolder);
-		if (project != null) classpathSelector.setItems(extractClasspathEntries());
+    classpathSelector = new LibrarySelector(tabFolder);
+    if (project != null) classpathSelector.setItems(extractClasspathEntries());
 
-		TabItem item1 = new TabItem(tabFolder, SWT.NONE);
-		item1.setText("&Classpath");
-		item1.setControl(classpathSelector);
+    TabItem item1 = new TabItem(tabFolder, SWT.NONE);
+    item1.setText("&Classpath");
+    item1.setControl(classpathSelector);
 
-		sigpathSelector = new LibrarySelector(tabFolder);
-		if (project != null) sigpathSelector.setItems(extractSigpathEntries());
-		
-		TabItem item2 = new TabItem(tabFolder, SWT.NONE);
-		item2.setText("&Sigpath");
-		item2.setControl(sigpathSelector);
+    sigpathSelector = new LibrarySelector(tabFolder);
+    if (project != null) sigpathSelector.setItems(extractSigpathEntries());
 
-		Dialog.applyDialogFont(composite);
-		setControl(composite);
-	}
-	
-	private List<LibraryResource> extractSigpathEntries() {
-	    File classpathFile =
-	        project.getFile(ClasspathUtil.CLASSPATH_FILE_NAME).getRawLocation()
-	        .toFile();
-	    List<ClasspathEntry> entries =
-	        ClasspathUtil.getClasspathEntries(classpathFile, ClasspathEntryType.SIGPATHENTRY);
-	    List<LibraryResource> items = new ArrayList<>();
+    TabItem item2 = new TabItem(tabFolder, SWT.NONE);
+    item2.setText("&Sigpath");
+    item2.setControl(sigpathSelector);
 
-	    for (ClasspathEntry entry : entries)
-	      items.add(new LibraryResource(entry.getPath()));
+    Dialog.applyDialogFont(composite);
+    setControl(composite);
+  }
 
-	    return items;
-	  }
-	
-	@Override
-	public List<LibraryResource> getClasspathEntries() {
-	    return classpathSelector.getItems();
-	}
-	
-	public List<LibraryResource> getSigpathEntries() {
-	    return sigpathSelector.getItems();
-	}
+  private List<LibraryResource> extractSigpathEntries() {
+    File classpathFile =
+        project.getFile(ClasspathUtil.CLASSPATH_FILE_NAME).getRawLocation()
+            .toFile();
+    List<ClasspathEntry> entries =
+        ClasspathUtil.getClasspathEntries(classpathFile,
+            ClasspathEntryType.SIGPATHENTRY);
+    List<LibraryResource> items = new ArrayList<>();
+
+    for (ClasspathEntry entry : entries)
+      items.add(new LibraryResource(entry.getPath()));
+
+    return items;
+  }
+
+  @Override
+  public List<LibraryResource> getClasspathEntries() {
+    return classpathSelector.getItems();
+  }
+
+  public List<LibraryResource> getSigpathEntries() {
+    return sigpathSelector.getItems();
+  }
 }

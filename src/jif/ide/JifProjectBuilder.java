@@ -20,51 +20,54 @@ import polyglot.util.SilentErrorQueue;
 
 public class JifProjectBuilder extends JLProjectBuilder {
 
-	@Override
-	protected IProject[] build(int kind, Map<String, String> args,
-			IProgressMonitor monitor) throws CoreException {
+  @Override
+  protected IProject[] build(int kind, Map<String, String> args,
+      IProgressMonitor monitor) throws CoreException {
 
-		File classpathFile = getProject()
-				.getFile(ClasspathUtil.CLASSPATH_FILE_NAME).getRawLocation()
-				.toFile();
-		String classpath = DefaultClasspathResolver.getDefaultClasspath() + File.pathSeparator + ClasspathUtil.parse(classpathFile);
-		jif.ExtensionInfo extInfo = getExtensionInfo();
-		String sigpath = DefaultClasspathResolver.getDefaultSigpath() + File.pathSeparator + ClasspathUtil.parse(classpathFile,
-				ClasspathEntryType.SIGPATHENTRY);
+    File classpathFile =
+        getProject().getFile(ClasspathUtil.CLASSPATH_FILE_NAME)
+            .getRawLocation().toFile();
+    String classpath =
+        DefaultClasspathResolver.getDefaultClasspath() + File.pathSeparator
+            + ClasspathUtil.parse(classpathFile);
+    jif.ExtensionInfo extInfo = getExtensionInfo();
+    String sigpath =
+        DefaultClasspathResolver.getDefaultSigpath()
+            + File.pathSeparator
+            + ClasspathUtil.parse(classpathFile,
+                ClasspathEntryType.SIGPATHENTRY);
 
-		SilentErrorQueue eq = new SilentErrorQueue(100, "compiler");
+    SilentErrorQueue eq = new SilentErrorQueue(100, "compiler");
 
-		String binPath = getProject().getFile("bin").getRawLocation()
-				.toString();
-		Set<String> filesToCompile = new HashSet<>();
-		File src = getProject().getFile("src").getRawLocation().toFile();
-		collectAllFiles(src, filesToCompile, extInfo);
+    String binPath = getProject().getFile("bin").getRawLocation().toString();
+    Set<String> filesToCompile = new HashSet<>();
+    File src = getProject().getFile("src").getRawLocation().toFile();
+    collectAllFiles(src, filesToCompile, extInfo);
 
-		if (filesToCompile.isEmpty())
-			return null;
+    if (filesToCompile.isEmpty()) return null;
 
-		String[] compilerArgs = new String[filesToCompile.size() + 6];
-		System.arraycopy(new String[] { "-d", binPath, "-classpath", classpath,
-				"-sigcp", sigpath }, 0, compilerArgs, 0, 6);
-		int curIdx = 6;
-		for (String srcFile : filesToCompile) {
-			if (extension(srcFile).equals(extInfo.defaultFileExtension()))
-				compilerArgs[curIdx++] = srcFile;
-		}
+    String[] compilerArgs = new String[filesToCompile.size() + 6];
+    System.arraycopy(new String[] { "-d", binPath, "-classpath", classpath,
+        "-sigcp", sigpath }, 0, compilerArgs, 0, 6);
+    int curIdx = 6;
+    for (String srcFile : filesToCompile) {
+      if (extension(srcFile).equals(extInfo.defaultFileExtension()))
+        compilerArgs[curIdx++] = srcFile;
+    }
 
-		Main main = new Main();
+    Main main = new Main();
 
-		try {
-			main.start(compilerArgs, extInfo, eq);
-		} catch (TerminationException e) {
-			// ignore this one
-		}
+    try {
+      main.start(compilerArgs, extInfo, eq);
+    } catch (TerminationException e) {
+      // ignore this one
+    }
 
-		return null;
-	}
-	
-	@Override
-	protected jif.ExtensionInfo getExtensionInfo() {
-		return new jif.ExtensionInfo();
-	}
+    return null;
+  }
+
+  @Override
+  protected jif.ExtensionInfo getExtensionInfo() {
+    return new jif.ExtensionInfo();
+  }
 }

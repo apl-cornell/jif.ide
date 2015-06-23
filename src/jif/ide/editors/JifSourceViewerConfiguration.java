@@ -10,15 +10,15 @@ import polyglot.ide.editors.SourceViewerConfiguration;
 
 public class JifSourceViewerConfiguration extends SourceViewerConfiguration {
 
-	public JifSourceViewerConfiguration(Editor editor, ColorManager colorManager) {
-		super(editor, colorManager);
-	}
+  public JifSourceViewerConfiguration(Editor editor, ColorManager colorManager) {
+    super(editor, colorManager);
+  }
 
-	@Override
-	  public IReconciler getReconciler(ISourceViewer sourceViewer) {
-		MonoReconciler reconciler =
-	        new MonoReconciler(new JifReconcilingStrategy(editor), false);
-	    reconciler.install(sourceViewer);
-	    return reconciler;
-	  }
+  @Override
+  public IReconciler getReconciler(ISourceViewer sourceViewer) {
+    MonoReconciler reconciler =
+        new MonoReconciler(new JifReconcilingStrategy(editor), false);
+    reconciler.install(sourceViewer);
+    return reconciler;
+  }
 }
