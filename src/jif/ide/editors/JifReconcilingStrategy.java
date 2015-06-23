@@ -42,7 +42,7 @@ public class JifReconcilingStrategy extends ReconcilingStrategy {
 			// TODO Need a better way of setting up these options.
 			Options options = extInfo.getOptions();
 			Options.global = options;
-			options.parseCommandLine(new String[] { "-d", "/tmp", "/dev/null",
+			options.parseCommandLine(new String[] { "-e", "-d", "/tmp", "/dev/null",
 					"-classpath", classpath, "-sigcp", sigpath, "-sourcepath",
 					sourcepath }, new HashSet<String>());
 		} catch (UsageError e) {
