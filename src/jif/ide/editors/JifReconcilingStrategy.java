@@ -1,15 +1,12 @@
 package jif.ide.editors;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.HashSet;
 
 import jif.ide.JifPlugin;
 import jif.ide.common.DefaultClasspathResolver;
-import jif.ide.natures.JifNature;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 
 import polyglot.frontend.ExtensionInfo;
 import polyglot.ide.common.BuildpathUtil;
@@ -35,12 +32,14 @@ public class JifReconcilingStrategy extends ReconcilingStrategy {
             .toFile();
     String classpath =
         DefaultClasspathResolver.getDefaultClasspath() + File.pathSeparator
-            + BuildpathUtil.parse(buildpathFile, "");
+            + BuildpathUtil.parse(pluginInfo, buildpathFile, "");
     String sourcepath =
         project.getFile("src").getRawLocation().toFile().toString();
     String sigpath =
-        DefaultClasspathResolver.getDefaultSigpath() + File.pathSeparator
-            + BuildpathUtil.parse(buildpathFile, JifPlugin.SIGPATH, "");
+        DefaultClasspathResolver.getDefaultSigpath()
+            + File.pathSeparator
+            + BuildpathUtil.parse(pluginInfo, buildpathFile, JifPlugin.SIGPATH,
+                "");
 
     try {
       // TODO Need a better way of setting up these options.
@@ -51,20 +50,9 @@ public class JifReconcilingStrategy extends ReconcilingStrategy {
               classpath, "-sigcp", sigpath, "-sourcepath", sourcepath },
           new HashSet<String>());
     } catch (UsageError e) {
-      ErrorUtil.handleError(Level.ERROR, "polyglot.ide", "Compiler error",
+      ErrorUtil.handleError(pluginInfo, Level.ERROR, "Compiler error",
           "An error occurred while configuring the compiler.", e, Style.LOG);
     }
   }
 
-  @Override
-  protected boolean checkNature(IProject project) {
-    try {
-      if (Arrays.asList(project.getDescription().getNatureIds()).contains(
-          JifNature.NATURE_ID)) return true;
-    } catch (CoreException e) {
-      e.printStackTrace();
-    }
-
-    return false;
-  }
 }

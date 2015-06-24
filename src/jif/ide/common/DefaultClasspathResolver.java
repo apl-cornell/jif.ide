@@ -4,7 +4,7 @@ import java.io.File;
 import java.net.URI;
 import java.net.URL;
 
-import jif.ide.JifPlugin;
+import jif.ide.JifPluginInfo;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
@@ -18,7 +18,7 @@ import polyglot.ide.common.ErrorUtil.Style;
 public class DefaultClasspathResolver {
 
   private static String getPath(String filename) {
-    Bundle bundle = Platform.getBundle(JifPlugin.PLUGIN_ID);
+    Bundle bundle = Platform.getBundle(JifPluginInfo.INSTANCE.pluginID());
     URL url = FileLocator.find(bundle, new Path(filename), null);
 
     if (url != null) {
@@ -26,7 +26,7 @@ public class DefaultClasspathResolver {
         URI uri = FileLocator.toFileURL(url).toURI();
         return uri.getPath();
       } catch (Exception e) {
-        ErrorUtil.handleError(Level.WARNING, "jif.ide",
+        ErrorUtil.handleError(JifPluginInfo.INSTANCE, Level.WARNING,
             "Unable to include default classpath entries.", e.getCause(),
             Style.BLOCK);
       }

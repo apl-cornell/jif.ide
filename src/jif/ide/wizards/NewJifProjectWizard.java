@@ -4,86 +4,61 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jif.ide.JifPlugin;
-import jif.ide.natures.JifNature;
-
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
-
+import jif.ide.JifPluginInfo;
+import polyglot.ide.PluginInfo;
 import polyglot.ide.common.BuildpathEntry;
-import polyglot.ide.common.BuildpathUtil;
-import polyglot.ide.common.ErrorUtil;
-import polyglot.ide.common.ErrorUtil.Level;
-import polyglot.ide.common.ErrorUtil.Style;
+import polyglot.ide.wizards.AbstractNewProjectWizard;
 import polyglot.ide.wizards.LibraryResource;
-import polyglot.ide.wizards.NewJLProjectWizard;
 
-public class NewJifProjectWizard extends NewJLProjectWizard {
+public class NewJifProjectWizard extends AbstractNewProjectWizard {
 
-  @Override
-  protected String getTitle() {
-    return "New Jif Project";
+  protected NewJifProjectWizardPageTwo pageTwo;
+
+  /**
+   * A hook for Eclipse to instantiate this class.
+   */
+  public NewJifProjectWizard() {
+    this(JifPluginInfo.INSTANCE);
+  }
+
+  /**
+   * A hook for extensions to instantiate this class.
+   */
+  public NewJifProjectWizard(PluginInfo pluginInfo) {
+    super(pluginInfo);
   }
 
   @Override
-  protected String getNature() {
-    return JifNature.NATURE_ID;
-  }
-
-  @Override
-  public void addPages() {
-    pageOne = new WizardNewProjectCreationPage("newJifProjectPageOne") {
-      @Override
-      public void createControl(Composite parent) {
-        super.createControl(parent);
-        createWorkingSetGroup((Composite) getControl(), selection,
-            new String[] { "org.eclipse.ui.resourceWorkingSetPage" });
-        Dialog.applyDialogFont(getControl());
-      }
-    };
-    pageOne.setTitle("Create a Jif Project");
-    pageOne.setDescription("Enter a project name.");
-    addPage(pageOne);
-
-    pageTwo = new NewJifProjectWizardPageTwo("newJifProjectPageTwo");
-    pageTwo.setTitle("Jif Settings");
-    pageTwo.setDescription("Define the Jif build settings.");
+  public void addExtraPages() {
+    pageTwo =
+        new NewJifProjectWizardPageTwo(pluginInfo, "new"
+            + pluginInfo.langShortName() + "ProjectPageTwo");
+    pageTwo.setTitle(pluginInfo.langName() + " Settings");
+    pageTwo.setDescription("Define the " + pluginInfo.langName()
+        + " build settings.");
 
     addPage(pageTwo);
   }
 
   @Override
-  protected void createBuildpathFile() {
-    List<BuildpathEntry> entries = new ArrayList<>();
+  protected List<BuildpathEntry> extraBuildpathEntries() {
+    List<BuildpathEntry> result = new ArrayList<>();
 
-    // src is default classpath entry
-    entries.add(new BuildpathEntry(BuildpathEntry.SRC, "src"));
-
-    if (pageTwo.getClasspathEntries() != null)
-      for (LibraryResource libraryResource : pageTwo.getClasspathEntries())
-        entries.add(new BuildpathEntry(BuildpathEntry.LIB, libraryResource
-            .getName()));
-
-    // bin is default classpath entry
-    entries.add(new BuildpathEntry(BuildpathEntry.OUTPUT, "bin"));
-
-    if (((NewJifProjectWizardPageTwo) pageTwo).getSigpathEntries() != null)
-      for (LibraryResource libraryResource : ((NewJifProjectWizardPageTwo) pageTwo)
-          .getSigpathEntries())
-        entries.add(new BuildpathEntry(JifPlugin.SIGPATH, BuildpathEntry.LIB,
-            libraryResource.getName()));
-
-    try {
-      BuildpathUtil.createBuildpathFile(project, entries);
-    } catch (Exception e) {
-      ErrorUtil.handleError(Level.WARNING, "jif.ide",
-          "Error creating dot-buildpath file. Please check file permissions",
-          e.getCause(), Style.BLOCK);
+    // Add entries for the classpath.
+    List<LibraryResource> classpathResources = pageTwo.getClasspathEntries();
+    if (classpathResources != null) {
+      for (LibraryResource lr : classpathResources)
+        result.add(new BuildpathEntry(BuildpathEntry.LIB, lr.getName()));
     }
-  }
 
-  @Override
-  protected String getBuilderId() {
-    return "jif.ide.jifBuilder";
+    // Add entries for the sigpath.
+    List<LibraryResource> sigpathResources = pageTwo.getSigpathEntries();
+    if (sigpathResources != null) {
+      for (LibraryResource lr : sigpathResources)
+        result.add(new BuildpathEntry(JifPlugin.SIGPATH, BuildpathEntry.LIB, lr
+            .getName()));
+    }
+
+    return result;
   }
 }

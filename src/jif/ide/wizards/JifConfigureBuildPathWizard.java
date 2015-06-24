@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.wizard.Wizard;
 
+import polyglot.ide.PluginInfo;
 import polyglot.ide.common.BuildpathEntry;
 import polyglot.ide.common.BuildpathUtil;
 import polyglot.ide.common.ErrorUtil;
@@ -20,19 +21,23 @@ import polyglot.ide.common.ErrorUtil.Style;
 import polyglot.ide.wizards.LibraryResource;
 
 public class JifConfigureBuildPathWizard extends Wizard {
-  IProject project;
-  NewJifProjectWizardPageTwo buildConfigurationPage;
+  protected final PluginInfo pluginInfo;
+  protected IProject project;
+  protected NewJifProjectWizardPageTwo buildConfigurationPage;
 
-  JifConfigureBuildPathWizard(IProject project) {
+  JifConfigureBuildPathWizard(PluginInfo pluginInfo, IProject project) {
+    this.pluginInfo = pluginInfo;
     this.project = project;
   }
 
   @Override
   public void addPages() {
     buildConfigurationPage =
-        new NewJifProjectWizardPageTwo("buildConfigWizardPage", project);
-    buildConfigurationPage.setTitle("Jif Settings");
-    buildConfigurationPage.setDescription("Define the Jif build settings.");
+        new NewJifProjectWizardPageTwo(pluginInfo, "buildConfigWizardPage",
+            project);
+    buildConfigurationPage.setTitle(pluginInfo.langName() + " Settings");
+    buildConfigurationPage.setDescription("Define the " + pluginInfo.langName()
+        + " build settings.");
     addPage(buildConfigurationPage);
   }
 
@@ -75,7 +80,7 @@ public class JifConfigureBuildPathWizard extends Wizard {
       BuildpathUtil.createBuildpathFile(project, entries);
       return true;
     } catch (Exception e) {
-      ErrorUtil.handleError(Level.WARNING, "jif.ide",
+      ErrorUtil.handleError(pluginInfo, Level.WARNING,
           "Error updating dot-classpath file. Please check file permissions",
           e.getCause(), Style.BLOCK);
       return false;
