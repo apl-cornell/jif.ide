@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import jif.ide.JifPlugin;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -13,9 +15,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-import polyglot.ide.common.ClasspathEntry;
-import polyglot.ide.common.ClasspathEntry.ClasspathEntryType;
-import polyglot.ide.common.ClasspathUtil;
+import polyglot.ide.common.BuildpathEntry;
+import polyglot.ide.common.BuildpathUtil;
 import polyglot.ide.wizards.LibraryResource;
 import polyglot.ide.wizards.LibrarySelector;
 import polyglot.ide.wizards.NewJLProjectWizardPageTwo;
@@ -66,15 +67,15 @@ public class NewJifProjectWizardPageTwo extends NewJLProjectWizardPageTwo {
   }
 
   private List<LibraryResource> extractSigpathEntries() {
-    File classpathFile =
-        project.getFile(ClasspathUtil.CLASSPATH_FILE_NAME).getRawLocation()
+    File buildpathFile =
+        project.getFile(BuildpathUtil.BUILDPATH_FILE_NAME).getRawLocation()
             .toFile();
-    List<ClasspathEntry> entries =
-        ClasspathUtil.getClasspathEntries(classpathFile,
-            ClasspathEntryType.SIGPATHENTRY);
+    List<BuildpathEntry> entries =
+        BuildpathUtil
+            .getBuildpathEntries(buildpathFile, JifPlugin.SIGPATH);
     List<LibraryResource> items = new ArrayList<>();
 
-    for (ClasspathEntry entry : entries)
+    for (BuildpathEntry entry : entries)
       items.add(new LibraryResource(entry.getPath()));
 
     return items;

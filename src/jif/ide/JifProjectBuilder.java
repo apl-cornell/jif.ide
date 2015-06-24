@@ -12,8 +12,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import polyglot.ide.JLProjectBuilder;
-import polyglot.ide.common.ClasspathEntry.ClasspathEntryType;
-import polyglot.ide.common.ClasspathUtil;
+import polyglot.ide.common.BuildpathUtil;
 import polyglot.main.Main;
 import polyglot.main.Main.TerminationException;
 import polyglot.util.SilentErrorQueue;
@@ -24,18 +23,16 @@ public class JifProjectBuilder extends JLProjectBuilder {
   protected IProject[] build(int kind, Map<String, String> args,
       IProgressMonitor monitor) throws CoreException {
 
-    File classpathFile =
-        getProject().getFile(ClasspathUtil.CLASSPATH_FILE_NAME)
+    File buildpathFile =
+        getProject().getFile(BuildpathUtil.BUILDPATH_FILE_NAME)
             .getRawLocation().toFile();
     String classpath =
         DefaultClasspathResolver.getDefaultClasspath() + File.pathSeparator
-            + ClasspathUtil.parse(classpathFile);
+            + BuildpathUtil.parse(buildpathFile, "");
     jif.ExtensionInfo extInfo = getExtensionInfo();
     String sigpath =
-        DefaultClasspathResolver.getDefaultSigpath()
-            + File.pathSeparator
-            + ClasspathUtil.parse(classpathFile,
-                ClasspathEntryType.SIGPATHENTRY);
+        DefaultClasspathResolver.getDefaultSigpath() + File.pathSeparator
+            + BuildpathUtil.parse(buildpathFile, JifPlugin.SIGPATH, "");
 
     SilentErrorQueue eq = new SilentErrorQueue(100, "compiler");
 

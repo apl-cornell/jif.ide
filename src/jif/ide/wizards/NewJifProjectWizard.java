@@ -3,16 +3,15 @@ package jif.ide.wizards;
 import java.util.ArrayList;
 import java.util.List;
 
+import jif.ide.JifPlugin;
 import jif.ide.natures.JifNature;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 
-import polyglot.ide.common.ClasspathEntry;
-import polyglot.ide.common.ClasspathEntry.ClasspathEntryKind;
-import polyglot.ide.common.ClasspathEntry.ClasspathEntryType;
-import polyglot.ide.common.ClasspathUtil;
+import polyglot.ide.common.BuildpathEntry;
+import polyglot.ide.common.BuildpathUtil;
 import polyglot.ide.common.ErrorUtil;
 import polyglot.ide.common.ErrorUtil.Level;
 import polyglot.ide.common.ErrorUtil.Style;
@@ -54,31 +53,31 @@ public class NewJifProjectWizard extends NewJLProjectWizard {
   }
 
   @Override
-  protected void createClasspathFile() {
-    List<ClasspathEntry> entries = new ArrayList<>();
+  protected void createBuildpathFile() {
+    List<BuildpathEntry> entries = new ArrayList<>();
 
     // src is default classpath entry
-    entries.add(new ClasspathEntry(ClasspathEntryKind.SRC, "src"));
+    entries.add(new BuildpathEntry(BuildpathEntry.SRC, "src"));
 
     if (pageTwo.getClasspathEntries() != null)
       for (LibraryResource libraryResource : pageTwo.getClasspathEntries())
-        entries.add(new ClasspathEntry(ClasspathEntryKind.LIB, libraryResource
+        entries.add(new BuildpathEntry(BuildpathEntry.LIB, libraryResource
             .getName()));
 
     // bin is default classpath entry
-    entries.add(new ClasspathEntry(ClasspathEntryKind.OUTPUT, "bin"));
+    entries.add(new BuildpathEntry(BuildpathEntry.OUTPUT, "bin"));
 
     if (((NewJifProjectWizardPageTwo) pageTwo).getSigpathEntries() != null)
       for (LibraryResource libraryResource : ((NewJifProjectWizardPageTwo) pageTwo)
           .getSigpathEntries())
-        entries.add(new ClasspathEntry(ClasspathEntryKind.LIB, libraryResource
-            .getName(), ClasspathEntryType.SIGPATHENTRY));
+        entries.add(new BuildpathEntry(JifPlugin.SIGPATH, BuildpathEntry.LIB,
+            libraryResource.getName()));
 
     try {
-      ClasspathUtil.createClasspathFile(project, entries);
+      BuildpathUtil.createBuildpathFile(project, entries);
     } catch (Exception e) {
       ErrorUtil.handleError(Level.WARNING, "jif.ide",
-          "Error creating dot-classpath file. Please check file permissions",
+          "Error creating dot-buildpath file. Please check file permissions",
           e.getCause(), Style.BLOCK);
     }
   }

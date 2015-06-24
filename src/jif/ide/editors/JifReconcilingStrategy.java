@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import jif.ide.JifPlugin;
 import jif.ide.common.DefaultClasspathResolver;
 import jif.ide.natures.JifNature;
 
@@ -11,8 +12,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 
 import polyglot.frontend.ExtensionInfo;
-import polyglot.ide.common.ClasspathEntry.ClasspathEntryType;
-import polyglot.ide.common.ClasspathUtil;
+import polyglot.ide.common.BuildpathUtil;
 import polyglot.ide.common.ErrorUtil;
 import polyglot.ide.common.ErrorUtil.Level;
 import polyglot.ide.common.ErrorUtil.Style;
@@ -30,19 +30,17 @@ public class JifReconcilingStrategy extends ReconcilingStrategy {
   @Override
   protected void setupCompilerOptions(ExtensionInfo extInfo) {
     IProject project = editor.getFile().getProject();
-    File classpathFile =
-        project.getFile(ClasspathUtil.CLASSPATH_FILE_NAME).getRawLocation()
+    File buildpathFile =
+        project.getFile(BuildpathUtil.BUILDPATH_FILE_NAME).getRawLocation()
             .toFile();
     String classpath =
         DefaultClasspathResolver.getDefaultClasspath() + File.pathSeparator
-            + ClasspathUtil.parse(classpathFile);
+            + BuildpathUtil.parse(buildpathFile, "");
     String sourcepath =
         project.getFile("src").getRawLocation().toFile().toString();
     String sigpath =
-        DefaultClasspathResolver.getDefaultSigpath()
-            + File.pathSeparator
-            + ClasspathUtil.parse(classpathFile,
-                ClasspathEntryType.SIGPATHENTRY);
+        DefaultClasspathResolver.getDefaultSigpath() + File.pathSeparator
+            + BuildpathUtil.parse(buildpathFile, JifPlugin.SIGPATH, "");
 
     try {
       // TODO Need a better way of setting up these options.
@@ -58,6 +56,7 @@ public class JifReconcilingStrategy extends ReconcilingStrategy {
     }
   }
 
+  @Override
   protected boolean checkNature(IProject project) {
     try {
       if (Arrays.asList(project.getDescription().getNatureIds()).contains(
