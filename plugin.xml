@@ -60,7 +60,7 @@
 	
 	<extension point="org.eclipse.ui.handlers">
       <handler
-            class="jif.ide.wizards.JifConfigureBuildPathCommandHandler"
+            class="jif.ide.wizards.ConfigureJifBuildPathCommandHandler"
             commandId="jif.ide.commands.configureBuildPathCommand">
       </handler>
     </extension>

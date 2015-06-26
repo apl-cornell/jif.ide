@@ -20,12 +20,12 @@ import polyglot.ide.common.ErrorUtil.Level;
 import polyglot.ide.common.ErrorUtil.Style;
 import polyglot.ide.wizards.LibraryResource;
 
-public class JifConfigureBuildPathWizard extends Wizard {
+public class ConfigureJifBuildPathWizard extends Wizard {
   protected final PluginInfo pluginInfo;
   protected IProject project;
   protected NewJifProjectWizardPageTwo buildConfigurationPage;
 
-  JifConfigureBuildPathWizard(PluginInfo pluginInfo, IProject project) {
+  ConfigureJifBuildPathWizard(PluginInfo pluginInfo, IProject project) {
     this.pluginInfo = pluginInfo;
     this.project = project;
   }
