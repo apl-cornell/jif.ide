@@ -10,28 +10,28 @@ import polyglot.ide.common.BuildpathEntry;
 import polyglot.ide.wizards.AbstractNewProjectWizard;
 import polyglot.ide.wizards.LibraryResource;
 
-public class NewJifProjectWizard extends AbstractNewProjectWizard {
+public class JifNewProjectWizard extends AbstractNewProjectWizard {
 
-  protected NewJifProjectWizardPageTwo pageTwo;
+  protected JifNewProjectWizardPageTwo pageTwo;
 
   /**
    * A hook for Eclipse to instantiate this class.
    */
-  public NewJifProjectWizard() {
+  public JifNewProjectWizard() {
     this(JifPluginInfo.INSTANCE);
   }
 
   /**
    * A hook for extensions to instantiate this class.
    */
-  public NewJifProjectWizard(PluginInfo pluginInfo) {
+  public JifNewProjectWizard(PluginInfo pluginInfo) {
     super(pluginInfo);
   }
 
   @Override
   public void addExtraPages() {
     pageTwo =
-        new NewJifProjectWizardPageTwo(pluginInfo, "new"
+        new JifNewProjectWizardPageTwo(pluginInfo, "new"
             + pluginInfo.langShortName() + "ProjectPageTwo");
     pageTwo.setTitle(pluginInfo.langName() + " Settings");
     pageTwo.setDescription("Define the " + pluginInfo.langName()

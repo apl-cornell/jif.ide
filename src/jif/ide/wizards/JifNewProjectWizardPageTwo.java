@@ -18,18 +18,18 @@ import org.eclipse.swt.widgets.TabItem;
 import polyglot.ide.PluginInfo;
 import polyglot.ide.common.BuildpathEntry;
 import polyglot.ide.common.BuildpathUtil;
+import polyglot.ide.wizards.JLNewProjectWizardPageTwo;
 import polyglot.ide.wizards.LibraryResource;
 import polyglot.ide.wizards.LibrarySelector;
-import polyglot.ide.wizards.NewJLProjectWizardPageTwo;
 
-public class NewJifProjectWizardPageTwo extends NewJLProjectWizardPageTwo {
+public class JifNewProjectWizardPageTwo extends JLNewProjectWizardPageTwo {
   private LibrarySelector sigpathSelector;
 
-  public NewJifProjectWizardPageTwo(PluginInfo pluginInfo, String name) {
+  public JifNewProjectWizardPageTwo(PluginInfo pluginInfo, String name) {
     super(pluginInfo, name);
   }
 
-  public NewJifProjectWizardPageTwo(PluginInfo pluginInfo, String name,
+  public JifNewProjectWizardPageTwo(PluginInfo pluginInfo, String name,
       IProject project) {
     super(pluginInfo, name, project);
   }

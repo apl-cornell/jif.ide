@@ -26,7 +26,7 @@
 				name="Jif"/>
 			<wizard
 				category="jif.ide.category.wizards"
-				class="jif.ide.wizards.NewJifProjectWizard"
+				class="jif.ide.wizards.JifNewProjectWizard"
 				id="jif.ide.wizards.new.jifproject"
 				name="Jif Project"
 				icon="images/jif-logo.png"
@@ -60,7 +60,7 @@
 	
 	<extension point="org.eclipse.ui.handlers">
       <handler
-            class="jif.ide.wizards.ConfigureJifBuildPathCommandHandler"
+            class="jif.ide.wizards.JifConfigureBuildPathCommandHandler"
             commandId="jif.ide.commands.configureBuildPathCommand">
       </handler>
     </extension>

@@ -20,12 +20,12 @@ import polyglot.ide.common.ErrorUtil.Level;
 import polyglot.ide.common.ErrorUtil.Style;
 import polyglot.ide.wizards.LibraryResource;
 
-public class ConfigureJifBuildPathWizard extends Wizard {
+public class JifConfigureBuildPathWizard extends Wizard {
   protected final PluginInfo pluginInfo;
   protected IProject project;
-  protected NewJifProjectWizardPageTwo buildConfigurationPage;
+  protected JifNewProjectWizardPageTwo buildConfigurationPage;
 
-  ConfigureJifBuildPathWizard(PluginInfo pluginInfo, IProject project) {
+  JifConfigureBuildPathWizard(PluginInfo pluginInfo, IProject project) {
     this.pluginInfo = pluginInfo;
     this.project = project;
   }
@@ -33,7 +33,7 @@ public class ConfigureJifBuildPathWizard extends Wizard {
   @Override
   public void addPages() {
     buildConfigurationPage =
-        new NewJifProjectWizardPageTwo(pluginInfo, "buildConfigWizardPage",
+        new JifNewProjectWizardPageTwo(pluginInfo, "buildConfigWizardPage",
             project);
     buildConfigurationPage.setTitle(pluginInfo.langName() + " Settings");
     buildConfigurationPage.setDescription("Define the " + pluginInfo.langName()
