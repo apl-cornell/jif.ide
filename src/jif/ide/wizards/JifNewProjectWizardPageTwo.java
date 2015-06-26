@@ -7,11 +7,7 @@ import java.util.List;
 import jif.ide.JifPlugin;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
@@ -35,45 +31,22 @@ public class JifNewProjectWizardPageTwo extends JLNewProjectWizardPageTwo {
   }
 
   @Override
-  public void createControl(Composite parent) {
-    Composite composite = new Composite(parent, SWT.NONE);
-    composite.setFont(parent.getFont());
-
-    GridLayout layout = new GridLayout();
-    layout.marginWidth = 0;
-    layout.marginHeight = 0;
-    layout.numColumns = 1;
-    composite.setLayout(layout);
-
-    final TabFolder tabFolder = new TabFolder(composite, SWT.BORDER);
-    tabFolder.setLayoutData(new GridData(GridData.FILL_BOTH));
-    tabFolder.setFont(composite.getFont());
-
-    classpathSelector = new LibrarySelector(tabFolder);
-    if (project != null) classpathSelector.setItems(extractClasspathEntries());
-
-    TabItem item1 = new TabItem(tabFolder, SWT.NONE);
-    item1.setText("&Classpath");
-    item1.setControl(classpathSelector);
-
+  public void addExtraBuildPathTabs(TabFolder tabFolder) {
     sigpathSelector = new LibrarySelector(tabFolder);
     if (project != null) sigpathSelector.setItems(extractSigpathEntries());
 
     TabItem item2 = new TabItem(tabFolder, SWT.NONE);
     item2.setText("&Sigpath");
     item2.setControl(sigpathSelector);
-
-    Dialog.applyDialogFont(composite);
-    setControl(composite);
   }
 
   private List<LibraryResource> extractSigpathEntries() {
     File buildpathFile =
         project.getFile(BuildpathUtil.BUILDPATH_FILE_NAME).getRawLocation()
-        .toFile();
+            .toFile();
     List<BuildpathEntry> entries =
-        BuildpathUtil
-        .getBuildpathEntries(pluginInfo, buildpathFile, JifPlugin.SIGPATH);
+        BuildpathUtil.getBuildpathEntries(pluginInfo, buildpathFile,
+            JifPlugin.SIGPATH);
     List<LibraryResource> items = new ArrayList<>();
 
     for (BuildpathEntry entry : entries)
@@ -83,11 +56,9 @@ public class JifNewProjectWizardPageTwo extends JLNewProjectWizardPageTwo {
   }
 
   @Override
-  public List<LibraryResource> getClasspathEntries() {
-    return classpathSelector.getItems();
-  }
-
-  public List<LibraryResource> getSigpathEntries() {
-    return sigpathSelector.getItems();
+  public List<BuildpathEntry> getBuildpathEntries() {
+    List<BuildpathEntry> result = super.getBuildpathEntries();
+    return addBuildpathEntries(JifPlugin.SIGPATH, BuildpathEntry.LIB,
+        sigpathSelector.getItems(), result);
   }
 }
