@@ -15,9 +15,4 @@ public class JifEditor extends JLEditor {
     super(pluginInfo);
   }
 
-  @Override
-  protected SourceViewerConfiguration createSourceViewerConfiguration() {
-    return new JifSourceViewerConfiguration(this, colorManager);
-  }
-
 }
