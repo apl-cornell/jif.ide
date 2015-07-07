@@ -19,10 +19,10 @@ import polyglot.ide.wizards.LibraryResource;
 import polyglot.ide.wizards.LibrarySelector;
 
 public class JifNewProjectWizardPageTwo extends JLNewProjectWizardPageTwo {
-  private LibrarySelector sigpathSelector;
+  protected LibrarySelector sigpathSelector;
 
   public JifNewProjectWizardPageTwo(PluginInfo pluginInfo, String name) {
-    super(pluginInfo, name);
+    this(pluginInfo, name, null);
   }
 
   public JifNewProjectWizardPageTwo(PluginInfo pluginInfo, String name,
@@ -33,24 +33,26 @@ public class JifNewProjectWizardPageTwo extends JLNewProjectWizardPageTwo {
   @Override
   public void addExtraBuildPathTabs(TabFolder tabFolder) {
     sigpathSelector = new LibrarySelector(tabFolder);
-    if (project != null) sigpathSelector.setItems(extractSigpathEntries());
+    if (project != null) {
+      sigpathSelector.setItems(getBuildpathResources(JifPlugin.SIGPATH));
+    }
 
     TabItem item2 = new TabItem(tabFolder, SWT.NONE);
     item2.setText("&Sigpath");
     item2.setControl(sigpathSelector);
   }
 
-  private List<LibraryResource> extractSigpathEntries() {
-    File buildpathFile =
-        project.getFile(BuildpathUtil.BUILDPATH_FILE_NAME).getRawLocation()
-            .toFile();
+  protected List<LibraryResource> getBuildpathResources(
+      BuildpathEntry.Kind kind) {
+    File buildpathFile = project.getFile(BuildpathUtil.BUILDPATH_FILE_NAME)
+        .getRawLocation().toFile();
     List<BuildpathEntry> entries =
-        BuildpathUtil.getBuildpathEntries(pluginInfo, buildpathFile,
-            JifPlugin.SIGPATH);
+        BuildpathUtil.getBuildpathEntries(pluginInfo, buildpathFile, kind);
     List<LibraryResource> items = new ArrayList<>();
 
-    for (BuildpathEntry entry : entries)
+    for (BuildpathEntry entry : entries) {
       items.add(new LibraryResource(entry.getPath()));
+    }
 
     return items;
   }
