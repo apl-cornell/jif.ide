@@ -1,0 +1,29 @@
+# Configuration properties for Jif IDE.
+
+
+# Jif project directory
+#
+# This is optional. Defaults to "${jif-ide.home}/../jif".
+
+#jif.home=${jif-ide.home}/../jif
+
+
+# Polyglot IDE project directory
+#
+# This is optional. Defaults to "${jif-ide.home}/../polyglot.ide".
+
+#polyglot-ide.home=${jif-ide.home}/../polyglot.ide
+
+
+# Eclipse installation directory
+#
+# This is optional. If not set, then the following values are used, in
+# order of precedence:
+#
+#   1. The eclipse.home property as configured in the Polyglot IDE
+#      project. (This does not exist when building against a binary
+#      build of Polyglot IDE.)
+#
+#   2. "/usr/lib/eclipse"
+
+#eclipse.home=/usr/lib/eclipse

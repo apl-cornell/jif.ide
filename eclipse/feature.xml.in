@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="jif.ide"
+      label="Jif IDE"
+      version="@version@">
+
+   <description url="https://www.cs.cornell.edu/jif/">
+      Jif IDE
+   </description>
+
+   <copyright
+         url="https://www.cs.cornell.edu/jif/ide/copyright.html">
+      Copyright (C) 2014-@year@ Jif project group, Cornell University
+   </copyright>
+
+   <license url="https://www.cs.cornell.edu/jif/ide/license.html">
+      This release of the Jif IDE is governed by the GNU Lesser General Public License, version 2.1.
+   </license>
+
+   <url>
+      <update label="Jif Updates"
+            url="https://www.cs.cornell.edu/jif/ide/updates/"/>
+      <discovery label="Jif project page"
+            url="https://www.cs.cornell.edu/jif/"/>
+   </url>
+
+   <requires>
+      <import plugin="jif"/>
+      <import plugin="polyglot.ide"/>
+   </requires>
+
+   <plugin
+         id="jif.ide"
+         download-size="0"
+         install-size="0"
+         version="@version@"
+         unpack="false"/>
+</feature>
+<!--
+vim: ts=3 sw=3 ai et
+-->

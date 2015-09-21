@@ -1,4 +1,6 @@
 Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.9.6
+Created-By: 1.8.0_60-b27 (Oracle Corporation)
 Bundle-ManifestVersion: 2
 Bundle-Name: Jif IDE
 Bundle-SymbolicName: jif.ide;singleton:=true
@@ -6,5 +8,7 @@ Bundle-Version: 0.1.0
 Bundle-Vendor: Jif project group
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Activator: jif.ide.JifPlugin
-Require-Bundle: polyglot.ide;bundle-version="[0.1.0,0.2.0)";visibility:=reexport
+Require-Bundle: polyglot.ide;bundle-version="[0.1.0,0.2.0)";visibility
+ :=reexport
 Bundle-ActivationPolicy: lazy
+
