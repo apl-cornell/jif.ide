@@ -6,10 +6,10 @@
         Jif IDE plugin build file
     </description>
 
-    <include file="../build.xml"/>
     <property name="features" location="${basedir}/eclipse/features"/>
     <property name="plugins" location="${basedir}/eclipse/plugins"/>
     <property name="tmp" location="${basedir}/eclipse/tmp"/>
+    <include file="../build.xml"/>
 
     <target name="all"
             depends="build-features,build-plugins"
