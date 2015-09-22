@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 
 import jif.ExtensionInfo;
 import polyglot.ide.JLPluginInfo;
@@ -16,6 +18,8 @@ public class JifPluginInfo extends JLPluginInfo {
 
   @SuppressWarnings("hiding")
   public static final JifPluginInfo INSTANCE = new JifPluginInfo();
+
+  public static final Bundle JIF_LANG_BUNDLE = Platform.getBundle("jif");
 
   @Override
   public String pluginID() {
@@ -49,14 +53,17 @@ public class JifPluginInfo extends JLPluginInfo {
 
   @Override
   protected List<String> baseClasspath() {
-    return new ArrayList<>(Arrays.asList(getPluginPath("/lib/jif-rt/"),
-        getPluginPath("/lib/jifrt.jar"), getPluginPath("/lib/jif-lib/"),
-        getPluginPath("/lib/jiflib.jar")));
+    return new ArrayList<>(
+        Arrays.asList(getPluginPath(JIF_LANG_BUNDLE, "/rt-classes/"),
+            getPluginPath(JIF_LANG_BUNDLE, "/lib/jifrt.jar"),
+            getPluginPath(JIF_LANG_BUNDLE, "/lib-classes/"),
+            getPluginPath(JIF_LANG_BUNDLE, "/lib/jiflib.jar")));
   }
 
   protected List<String> baseSigpath() {
-    return new ArrayList<>(Arrays.asList(getPluginPath("/lib/jif-sig/"),
-        getPluginPath("/lib/jifsig.jar")));
+    return new ArrayList<>(
+        Arrays.asList(getPluginPath(JIF_LANG_BUNDLE, "/sig-classes/"),
+            getPluginPath(JIF_LANG_BUNDLE, "/lib/jifsig.jar")));
   }
 
   @Override
@@ -72,10 +79,10 @@ public class JifPluginInfo extends JLPluginInfo {
     result.add("-e");
 
     if (!sigpath.isEmpty()) {
-      result.addAll(
-          Arrays.asList("-sigcp", BuildpathUtil.flattenPath(sigpath)));
+      result
+          .addAll(Arrays.asList("-sigcp", BuildpathUtil.flattenPath(sigpath)));
     }
-    
+
     return super.addCompilerArgs(validateOnly, project, sourceFiles, result);
   }
 
