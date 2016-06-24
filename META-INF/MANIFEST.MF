@@ -8,6 +8,6 @@ Bundle-Version: 0.1.0
 Bundle-Vendor: Jif project group
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Activator: jif.ide.JifPlugin
-Require-Bundle: polyglot.ide;bundle-version="[0.1.1,0.2.0)";visibility:=reexport,jif;bundle-version="[3.4.0,3.6.0)";visibility:=reexport
+Require-Bundle: polyglot.ide;bundle-version="[0.1.1,0.2.0)";visibility:=reexport
 Bundle-ActivationPolicy: lazy
 
