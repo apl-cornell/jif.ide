@@ -3,7 +3,7 @@
      (Can be externally sourced by projects that depend on Jif IDE.)
 -->
 
-<project name="jif-ide.common">
+<project name="jif-ide.common" xmlns:if="ant:if" xmlns:unless="ant:unless">
   <dirname property="jif-ide.home" file="${ant.file.jif-ide.common}"/>
 
   <!-- Ensure config.properties exists. -->
@@ -30,9 +30,10 @@
        If jif.home is not defined in the properties file, default
        to ${jif-ide.home}/../jif
   -->
+  <dirname property="jif-ide.home.parent" file="${jif-ide.home}"/>
   <condition property="jif.home"
       value="${config.jif.home}"
-      else="${jif-ide.home}/../jif">
+      else="${jif-ide.home.parent}/jif">
     <isset property="config.jif.home"/>
   </condition>
 
@@ -44,7 +45,7 @@
   -->
   <condition property="polyglot-ide.home"
       value="${config.polyglot-ide.home}"
-      else="${jif-ide.home}/../polyglot.ide">
+      else="${jif-ide.home.parent}/polyglot.ide">
     <isset property="config.polyglot-ide.home"/>
   </condition>
 
@@ -64,9 +65,9 @@
 
        If eclipse.home is not defined in the properties file, default to
        /usr/lib/eclipse. (This condition task will only have effect when
-       building against the Polyglot IDE binary. When building against the
-       source, the definitions imported from Polyglot IDE above will include
-       the eclipse.home property.)
+       building against the Polyglot IDE binary, which occurs when publishing
+       Jif IDE. When building against the source, the definitions imported from
+       Polyglot IDE above will include the eclipse.home property.)
   -->
   <condition property="eclipse.home"
       value="${config.eclipse.home}"
@@ -101,15 +102,15 @@
   Check configuration.
   -->
 
-  <echo message="Jif home directory is ${jif.home}"/>
-  <echo message="Polyglot IDE home directory is ${polyglot-ide.home}"/>
-  <echo message="Eclipse home directory is ${eclipse.home}"/>
-
   <!-- Check for presence of Jif. -->
   <condition property="jif.exists" value="true">
     <available classname="jif.Topics"
         classpathref="jif.classpath"/>
   </condition>
+
+  <!-- If Jif not found, print out the Jif home for debugging. -->
+  <echo unless:true="${jif.exists}"
+      message="Jif home directory is ${jif.home}"/>
 
   <!--
        Error handling: Jif not found and jif.home not set in
@@ -138,6 +139,13 @@
   </condition>
 
   <!--
+       If Polyglot IDE not found, print out the Polyglot IDE home for
+       debugging.
+  -->
+  <echo unless:true="${polyglot-ide.exists}"
+      message="Polyglot IDE home directory is ${polyglot-ide.home}"/>
+
+  <!--
        Error handling: Polyglot IDE not found and polyglot-ide.home not set
        in config.properties.
   -->
@@ -162,11 +170,15 @@
     <available file="${eclipse.home}/plugins" type="dir"/>
   </condition>
 
+  <!-- If Eclipse not found, print out the Eclipse home for debugging. -->
+  <echo unless:true="${eclipse.exists}"
+      message="Eclipse home directory is ${eclipse.home}"/>
+
   <!--
        Error handling: Eclipse not found and eclipse.home not set in
        config.properties.
   -->
-  <fail message="Failed to find Eclipse. Set the 'eclipse.home' property in '${polyglot-ide.home}/config.properties'.">
+  <fail message="Failed to find Eclipse. Set the 'eclipse.home' property in '${jif-ide.home}/config.properties'.">
     <condition>
       <and>
         <isfalse value="${eclipse.exists}"/>
@@ -176,7 +188,7 @@
   </fail>
 
   <!-- Error handling: Eclipse not found. -->
-  <fail message="Failed to find Eclipse. Ensure the 'eclipse.home' property is correct in '${polyglot-ide.home}/config.properties'.">
+  <fail message="Failed to find Eclipse. Ensure the 'eclipse.home' property is correct in '${jif-ide.home}/config.properties'.">
     <condition>
       <isfalse value="${eclipse.exists}"/>
     </condition>
